@@ -56,9 +56,17 @@ namespace DomainCascadeDelete.Data.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderItem");
                 });
@@ -92,6 +100,14 @@ namespace DomainCascadeDelete.Data.Migrations
                     b.HasOne("DomainCascadeDelete.Domain.Order", null)
                         .WithMany("Items")
                         .HasForeignKey("OrderId");
+
+                    b.HasOne("DomainCascadeDelete.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("DomainCascadeDelete.Domain.Order", b =>

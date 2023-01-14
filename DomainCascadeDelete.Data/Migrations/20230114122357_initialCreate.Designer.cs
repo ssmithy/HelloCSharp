@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomainCascadeDelete.Data.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230113222520_initialCreate")]
+    [Migration("20230114122357_initialCreate")]
     partial class initialCreate
     {
         /// <inheritdoc />
@@ -45,6 +45,35 @@ namespace DomainCascadeDelete.Data.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("DomainCascadeDelete.Domain.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItem");
+                });
+
             modelBuilder.Entity("DomainCascadeDelete.Domain.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -67,6 +96,26 @@ namespace DomainCascadeDelete.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("DomainCascadeDelete.Domain.OrderItem", b =>
+                {
+                    b.HasOne("DomainCascadeDelete.Domain.Order", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("DomainCascadeDelete.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DomainCascadeDelete.Domain.Order", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

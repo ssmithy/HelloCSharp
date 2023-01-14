@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DomainCascadeDelete.Data\DomainCascadeDelete.Data.csproj" />
+    <ProjectReference Include="..\DomainCascadeDelete.Services\DomainCascadeDelete.Services.csproj" />
     <ProjectReference Include="..\DomainCascadeDelete\DomainCascadeDelete.Domain.csproj" />
   </ItemGroup>
 
