@@ -21,4 +21,8 @@ public class Order : BaseEntity {
     public void AddProduct(Product product) {
         orderItems.Add(new OrderItem(product, 1));
     }
+
+    public void RemoveItem(OrderItem orderItem) {
+        orderItems.Remove(orderItem);
+    }
 }
